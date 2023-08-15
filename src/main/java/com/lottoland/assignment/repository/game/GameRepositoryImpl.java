@@ -17,7 +17,6 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    // @Loggable(LogLevel.DEBUG)
     public void addGameToSession(String sessionId, GameRound game) {
         if (!userGameSessions.containsKey(sessionId)) {
             this.createGameSession(sessionId);
@@ -26,7 +25,6 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    // @Loggable(LogLevel.DEBUG)
     public ArrayList<GameRound> getGamesFromSession(String sessionId) {
         if (!userGameSessions.containsKey(sessionId)) {
             this.createGameSession(sessionId);
@@ -35,12 +33,10 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    // @Loggable(LogLevel.DEBUG)
     public void clearGameSession(String sessionId) {
         userGameSessions.remove(sessionId);
     }
 
-    // @Loggable(LogLevel.DEBUG)
     private void createGameSession(String sessionId) {
         userGameSessions.put(sessionId, new ArrayList<GameRound>());
     }

@@ -1,10 +1,8 @@
 package com.lottoland.assignment.controller;
 
-import com.lottoland.assignment.aop.Loggable;
 import com.lottoland.assignment.service.RPSGameService;
 import com.lottoland.assignment.utils.dto.GameStats;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.boot.logging.LogLevel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +17,7 @@ public class RPSGameController {
         this.rpsGameService = rpsGameService;
     }
 
-    // @Loggable(LogLevel.INFO)
+    
     @GetMapping("/game")
     public String game(Model model, HttpSession session) {
 
@@ -27,7 +25,7 @@ public class RPSGameController {
         return "game";
     }
 
-    // @Loggable(LogLevel.INFO)
+    
     @GetMapping("/gameStats")
     public String gameStats(Model model, HttpSession session) {
         var gameStats = rpsGameService.getGlobalGameStats();
@@ -35,7 +33,7 @@ public class RPSGameController {
         return "gamestats";
     }
 
-    // @Loggable(LogLevel.INFO)
+    
     @PostMapping("/playRound")
     public String playRound(Model model, HttpSession session) {
 
@@ -44,7 +42,7 @@ public class RPSGameController {
         return "game";
     }
 
-    // @Loggable(LogLevel.INFO)
+    
     @PostMapping("/restartGame")
     public String restartGame(Model model, HttpSession session) {
 

@@ -24,7 +24,7 @@ public class RPSGameService {
     }
 
     // get number of rounds in session
-    // @Loggable(LogLevel.INFO)
+    
     public Integer getSessionRoundCount(String sessionId) {
         var gamesFromSession = this.gameRepository.getGamesFromSession(sessionId);
         if (Objects.isNull(gamesFromSession) || gamesFromSession.isEmpty()) {
@@ -34,13 +34,13 @@ public class RPSGameService {
     }
 
     // get all rounds played in session
-    // @Loggable(LogLevel.INFO)
+    
     public List<GameRound> getSessionRounds(String sessionId) {
         return this.gameRepository.getGamesFromSession(sessionId);
     }
 
     // begin TRANSACTION here to ensure both repositories are coordinated
-    // @Loggable(LogLevel.INFO)
+    
     public void playRound(String sessionId) {
         var gameRound = rpsGameSimulator.playRPSRound();
         gameRepository.addGameToSession(sessionId, gameRound);
@@ -59,7 +59,7 @@ public class RPSGameService {
     }
 
     // gets all stats and returns them in a record
-    // @Loggable(LogLevel.INFO)
+    
     public GameStats getGlobalGameStats() {
         return new GameStats(
                 gameStatsRepository.getTotalGames(),

@@ -1,2 +1,2 @@
 # LottoJavaTest
-Java test exercise for selection process
+Solution provided by candidate Lucas Gomez-Rodero.

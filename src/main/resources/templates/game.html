@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rock, Paper, Scissors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 36px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            background-color: #008CBA;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005a80;
+        }
+
+        p {
+            margin-top: 20px;
+            color: #666;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Rock, Paper, Scissors</h1>
+<form th:action="@{/playRound}" method="post">
+    <button type="submit">Play a Round!</button>
+</form>
+
+<p>Rounds Played in Session: <span th:text="${roundCount}">0</span></p>
+
+<table>
+    <thead>
+    <tr>
+        <th>Player 1</th>
+        <th>Player 2</th>
+        <th>Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="round : ${rounds}">
+        <td th:text="${round.player1Choice}"></td>
+        <td th:text="${round.player2Choice}"></td>
+        <td th:text="${round.result}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<form th:action="@{/restartGame}" method="post">
+    <button type="submit">Restart Game Session</button>
+</form>
+</body>
+</html>

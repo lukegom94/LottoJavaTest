@@ -1,26 +1,69 @@
 package com.lottoland.assignment.controller;
 
 import com.lottoland.assignment.aop.Loggable;
+import com.lottoland.assignment.service.RPSGameService;
+import com.lottoland.assignment.utils.dto.GameStats;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.boot.logging.LogLevel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class RPSGameController {
 
-    @Loggable(LogLevel.INFO)
-    @GetMapping("/game")
-    public String game(Model model) {
+    final RPSGameService rpsGameService;
 
-        return "gameview";
+    public RPSGameController(RPSGameService rpsGameService) {
+        this.rpsGameService = rpsGameService;
     }
 
-    @Loggable(LogLevel.INFO)
-    @GetMapping("/gameStats")
-    public String gameStats(Model model) {
+    // @Loggable(LogLevel.INFO)
+    @GetMapping("/game")
+    public String game(Model model, HttpSession session) {
 
-        return "gamestatsview";
+        this.updateSessionModel(model, session);
+        return "game";
+    }
+
+    // @Loggable(LogLevel.INFO)
+    @GetMapping("/gameStats")
+    public String gameStats(Model model, HttpSession session) {
+        var gameStats = rpsGameService.getGlobalGameStats();
+        this.updateGlobalStats(model, session, gameStats);
+        return "gamestats";
+    }
+
+    // @Loggable(LogLevel.INFO)
+    @PostMapping("/playRound")
+    public String playRound(Model model, HttpSession session) {
+
+        rpsGameService.playRound(session.getId());
+        this.updateSessionModel(model, session);
+        return "game";
+    }
+
+    // @Loggable(LogLevel.INFO)
+    @PostMapping("/restartGame")
+    public String restartGame(Model model, HttpSession session) {
+
+        rpsGameService.clearSessionRounds(session.getId());
+        this.updateSessionModel(model, session);
+        return "game";
+    }
+
+    // @Loggable(LogLevel.DEBUG)
+    private void updateSessionModel (Model model, HttpSession session) {
+        model.addAttribute("roundCount", rpsGameService.getSessionRoundCount(session.getId()));
+        model.addAttribute("rounds", rpsGameService.getSessionRounds(session.getId()));
+    }
+
+    private void updateGlobalStats (Model model, HttpSession session, GameStats gameStats) {
+        model.addAttribute("totalGamesPlayed", gameStats.totalGames());
+        model.addAttribute("gamesWonByPlayer1", gameStats.p1Victories());
+        model.addAttribute("gamesWonByPlayer2", gameStats.p2Victories());
+        model.addAttribute("draws", gameStats.draws());
     }
 
 }

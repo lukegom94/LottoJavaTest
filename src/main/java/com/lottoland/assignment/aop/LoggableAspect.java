@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Objects;
 
 @Aspect
 @Component
@@ -26,7 +27,7 @@ public class LoggableAspect {
 
         sb.append("Starting method " + method.getName() + "() with parameters: " + Arrays.toString(args));
         Object result = joinPoint.proceed();
-        sb.append(". Return value: " + result.toString());
+        sb.append(". Return value: " + ((Objects.isNull(result)) ? " void" : result));
 
         Logger.log(joinPoint.getSignature().getDeclaringType(), logLevel, sb.toString());
     }

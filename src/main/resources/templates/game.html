@@ -82,9 +82,9 @@
     </thead>
     <tbody>
     <tr th:each="round : ${rounds}">
-        <td th:text="${round.player1Choice}"></td>
-        <td th:text="${round.player2Choice}"></td>
-        <td th:text="${round.result}"></td>
+        <td th:text="${round.playerOneOption}"></td>
+        <td th:text="${round.playerTwoOption}"></td>
+        <td th:text="${round.gameResult}"></td>
     </tr>
     </tbody>
 </table>
@@ -92,5 +92,10 @@
 <form th:action="@{/restartGame}" method="post">
     <button type="submit">Restart Game Session</button>
 </form>
+
+<form th:action="@{/gameStats}" method="get">
+    <button type="submit">See Global Stats</button>
+</form>
+
 </body>
 </html>

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public interface GameRepository {
 
-    void addGameToSession(String sessionId, GameRound game);
+    boolean addGameToSession(String sessionId, GameRound game);
 
     ArrayList<GameRound> getGamesFromSession(String sessionId);
 

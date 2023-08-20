@@ -25,7 +25,7 @@ public class GameRepositoryTest {
     @BeforeEach
     void initVariables() {
 
-        sessionId1 = "SESSION_ID_1";
+        sessionId1 = "SESSION_ID1";
         roundDraw = new GameRound(0, 0, GameResult.DRAW);
         roundP1 = new GameRound(0, 2, GameResult.PLAYER_1);
         roundP2 = new GameRound(0, 1, GameResult.PLAYER_2);

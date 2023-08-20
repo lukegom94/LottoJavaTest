@@ -17,11 +17,12 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public void addGameToSession(String sessionId, GameRound game) {
+    public boolean addGameToSession(String sessionId, GameRound game) {
         if (!userGameSessions.containsKey(sessionId)) {
             this.createGameSession(sessionId);
         }
         userGameSessions.get(sessionId).add(game);
+        return true;
     }
 
     @Override

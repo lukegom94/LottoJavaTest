@@ -17,6 +17,7 @@ public class RPSGameSimulator {
     @Value("${strategies.player2}")
     String player2Strategy;
 
+
     // Simulates a Rock, Paper, Scissors game round
     public GameRound playRPSRound() {
 

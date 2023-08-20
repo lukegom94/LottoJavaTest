@@ -7,8 +7,11 @@ import com.lottoland.assignment.utils.dto.GameRound;
 import com.lottoland.assignment.utils.dto.GameRoundResponseDTO;
 import com.lottoland.assignment.utils.dto.GameStats;
 import com.lottoland.assignment.utils.mappers.RPSMapper;
+import io.micrometer.common.util.StringUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ch.qos.logback.classic.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,8 @@ import java.util.Objects;
 
 @Service
 public class RPSGameService {
+
+    Logger logger = (Logger) LoggerFactory.getLogger(RPSGameService.class);
 
     private final RPSGameSimulator rpsGameSimulator;
     private final GameRepository gameRepository;
@@ -45,20 +50,33 @@ public class RPSGameService {
     // begin TRANSACTION here to ensure both repositories (session & global) are coordinated
     @Transactional
     public void playRound(String sessionId) {
-        var gameRound = rpsGameSimulator.playRPSRound();
-        gameRepository.addGameToSession(sessionId, gameRound);
-        this.addGameStats(gameRound);
+        if (null == sessionId || StringUtils.isBlank(sessionId)) {
+            throw new IllegalArgumentException("Null or blank parameter in method playRound()");
+        }
+
+        GameRound gameRound = rpsGameSimulator.playRPSRound();
+        if (null == gameRound) {
+            throw new RuntimeException("Game simulation failed");
+        }
+
+        try {
+            gameRepository.addGameToSession(sessionId, gameRound);
+            this.addGameStats(gameRound);
+        } catch (Exception e) {
+            logger.error("Error saving game in repositories");
+        }
     }
 
     // adds game stats to stats repository
     // @Loggable(LogLevel.DEBUG)
-    private void addGameStats(GameRound gameRound) {
+    private boolean addGameStats(GameRound gameRound) {
         gameStatsRepository.addGameToTotal();
         switch (gameRound.gameResult()) {
             case DRAW -> gameStatsRepository.addDraw();
             case PLAYER_1 -> gameStatsRepository.addPlayer1Victory();
             case PLAYER_2 -> gameStatsRepository.addPlayer2Victory();
         }
+        return true;
     }
 
     // gets all stats and returns them in a record

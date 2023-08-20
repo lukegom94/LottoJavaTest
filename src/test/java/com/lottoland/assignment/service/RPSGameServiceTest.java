@@ -1,6 +1,7 @@
 package com.lottoland.assignment.service;
 
 import com.lottoland.assignment.utils.dto.GameRound;
+import com.lottoland.assignment.utils.dto.GameRoundResponseDTO;
 import com.lottoland.assignment.utils.enums.GameResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,7 @@ public class RPSGameServiceTest {
             rpsGameService.playRound(sessionId1);
         }
         Integer sessionRoundCount = rpsGameService.getSessionRoundCount(sessionId1);
-        List<GameRound> sessionRounds = rpsGameService.getSessionRounds(sessionId1);
+        List<GameRoundResponseDTO> sessionRounds = rpsGameService.getSessionRounds(sessionId1);
         System.out.println(sessionRoundCount);
         System.out.println(sessionRounds);
 

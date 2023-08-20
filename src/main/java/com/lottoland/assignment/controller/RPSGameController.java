@@ -17,7 +17,7 @@ public class RPSGameController {
         this.rpsGameService = rpsGameService;
     }
 
-    
+
     @GetMapping("/game")
     public String game(Model model, HttpSession session) {
 
@@ -42,7 +42,6 @@ public class RPSGameController {
         return "game";
     }
 
-    
     @PostMapping("/restartGame")
     public String restartGame(Model model, HttpSession session) {
 

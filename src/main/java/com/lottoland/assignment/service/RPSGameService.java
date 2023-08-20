@@ -4,9 +4,13 @@ import com.lottoland.assignment.repository.game.GameRepository;
 import com.lottoland.assignment.repository.gamestats.GameStatsRepository;
 import com.lottoland.assignment.service.simulator.RPSGameSimulator;
 import com.lottoland.assignment.utils.dto.GameRound;
+import com.lottoland.assignment.utils.dto.GameRoundResponseDTO;
 import com.lottoland.assignment.utils.dto.GameStats;
+import com.lottoland.assignment.utils.mappers.RPSMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,7 +28,6 @@ public class RPSGameService {
     }
 
     // get number of rounds in session
-    
     public Integer getSessionRoundCount(String sessionId) {
         var gamesFromSession = this.gameRepository.getGamesFromSession(sessionId);
         if (Objects.isNull(gamesFromSession) || gamesFromSession.isEmpty()) {
@@ -33,14 +36,14 @@ public class RPSGameService {
         return this.gameRepository.getGamesFromSession(sessionId).size();
     }
 
-    // get all rounds played in session
-    
-    public List<GameRound> getSessionRounds(String sessionId) {
-        return this.gameRepository.getGamesFromSession(sessionId);
+    // get all rounds played in session and return them to web DTO
+    public List<GameRoundResponseDTO> getSessionRounds(String sessionId) {
+        ArrayList<GameRound> gamesFromSession = this.gameRepository.getGamesFromSession(sessionId);
+        return RPSMapper.gameRoundToGameRoundResponseDTO(gamesFromSession);
     }
 
-    // begin TRANSACTION here to ensure both repositories are coordinated
-    
+    // begin TRANSACTION here to ensure both repositories (session & global) are coordinated
+    @Transactional
     public void playRound(String sessionId) {
         var gameRound = rpsGameSimulator.playRPSRound();
         gameRepository.addGameToSession(sessionId, gameRound);
@@ -59,7 +62,6 @@ public class RPSGameService {
     }
 
     // gets all stats and returns them in a record
-    
     public GameStats getGlobalGameStats() {
         return new GameStats(
                 gameStatsRepository.getTotalGames(),

@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public record GameRound (int playerOneOption, int playerTwoOption, GameResult gameResult) {
 
-    // Data validation.
+    // Validates data
     public GameRound {
         if (playerOneOption < 0 || playerTwoOption < 0 || Objects.isNull(gameResult)) {
             throw new IllegalArgumentException("Not valid data");

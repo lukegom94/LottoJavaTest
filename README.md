@@ -35,6 +35,17 @@ In a distributed-system architecture, the simulation of games could be provided 
 
 The RPSGameSimulator class can simulate different strategies for players. I have preferred developing a custom simulation logic using numbers (0,1,2), instead of copying and pasting a solution from the internet for having some fun :).
 
+# 3.2. Testing:
+Please, beware this is far from production-ready code, and this project clearly lacks testing. I would never push to production a project with so little testing.
+
+Some testing has been performed in class *RPSGameServiceTest*, using mocks and an OutputCaptureExtension to ensure logs are working properly when Exception is thrown. This is just a way of showing what I would consider some good testing practices, but the class is not fully tested so far.
+
+![imagen](https://github.com/lukegom94/LottolandJavaTest/assets/83473675/1448451f-cf1e-4215-99e3-f3da6585332d)
+
+In a real-life project I would test most method in the project and ensure logic works properly and any irregular situation is covered. Integration tests should be added as well.
+
+
+
 
 
 
